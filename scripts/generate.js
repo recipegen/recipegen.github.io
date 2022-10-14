@@ -59,7 +59,7 @@ function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
     if (req_itms.length != 0) {
         var has_req_itms = new Array(req_itms.length).fill(false);
 
-        for (let i = 0; i < recipe_combo_idxs; i++) {
+        for (let i = 0; i < recipe_combo_idxs.length; i++) {
             var recipe_df = recipe_database.all_recipes[recipe_combo_idxs[i]].recipe;
             for (let j = 0; j < recipe_df.length; j++) {
                 var recipe_item = recipe_df[j].item.toLowerCase();
