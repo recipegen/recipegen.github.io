@@ -79,13 +79,16 @@ function pickRecipes(){
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
     var total_recipe = Math.ceil(total_serv / serv_per_recipe);
 
+    console.log("[" + req_itms.toString() + "] Length: " + req_itms.length.toString());
+    console.log("[" + unwant_itms.toString() + "] Length: " + unwant_itms.length.toString());
+
     var recipe_valid_idxs = [];
     for (let i = 0; i < recipe_database.all_recipes.length; i++) {
         if (isValidRecipe(i, unwant_itms)) {
             recipe_valid_idxs.push(i);
         }
     }
-    console.log("Total Valid Recipes: " + recipe_valid_idxs.length.toString())
+    console.log("Total Valid Recipes: " + recipe_valid_idxs.length.toString());
 
     var combo_iters = 0;
     var max_tries = 1000000;
@@ -100,6 +103,7 @@ function pickRecipes(){
         }
 
         if (isValidRecipeCombo(recipe_combo_idxs, req_itms)) {
+            console.log("Trying to break");
             break;
         }
         combo_iters++;
