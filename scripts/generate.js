@@ -33,7 +33,7 @@ function isValidRecipe(recipe_idx, unwant_itms){
         return false
     }
     else if (unwant_itms.length != 0) {
-        recipe_name_words = recipe_name.toLowerCase().split(" ")
+        var recipe_name_words = recipe_name.toLowerCase().split(" ")
         for (let i = 0; i < recipe_name_words.length; i++) {
             if (unwant_itms.includes(recipe_name_words[i])) {
                 return false
@@ -46,7 +46,7 @@ function isValidRecipe(recipe_idx, unwant_itms){
                 return false
             }
 
-            item_words = recipe_item.split(" ")
+            var item_words = recipe_item.split(" ")
             for (let i = 0; i < item_words.length; i++) {
                 if (unwant_itms.includes(item_words[i])) {
                     return false
@@ -63,8 +63,6 @@ function pickRecipes(){
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
 
-    valid_recipe = isValidRecipe(0, unwant_itms)
-
     var return_text = "<div>" + total_serv.toString() + "</div>"
     return_text += "<div>" + serv_per_recipe.toString() + "</div><div>"
     for (let i = 0; i < req_itms.length; i++) {
@@ -77,7 +75,10 @@ function pickRecipes(){
     return_text = return_text.substring(0, return_text.length - 2) + "</div>"
     return_text += "<div>" + recipe_database.all_recipes[0].name + "</div>"
     return_text += "<div>" + recipe_database.all_recipes[0].url + "</div>"
-    return_text += "<div>" + valid_recipe.toString() + "</div>"
+    return_text += "<div>" + isValidRecipe(0, unwant_itms).toString() + "</div>"
+    return_text += "<div>" + recipe_database.all_recipes[1].name + "</div>"
+    return_text += "<div>" + recipe_database.all_recipes[1].url + "</div>"
+    return_text += "<div>" + isValidRecipe(1, unwant_itms).toString() + "</div>"
     console.log(return_text)
     document.getElementById('test').innerHTML = return_text
 }
