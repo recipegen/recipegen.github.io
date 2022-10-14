@@ -14,13 +14,12 @@ function readTextFile(file, callback) {
 }
 
 function readAllRecipes(){
-    document.getElementById('test').innerHTML = "Start Method"
     recipe_dict_list = readTextFile(recipe_database_filename, function(text){
         var data = JSON.parse(text);
+        document.getElementById('test').innerHTML = data["all_recipes"][0]["name"]
         console.log("Callback Worked");
         console.log(data["all_recipes"][0]["name"]);
     });
-    document.getElementById('test').innerHTML = "End Method"
 }
 
 function getTotalRecipes(){
