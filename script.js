@@ -13,18 +13,19 @@ function readTextFile(file, callback) {
 }
 
 function readAllRecipes(){
+    document.getElementById('test').innerHTML = "Start Method"
     recipe_dict_list = readTextFile(recipe_database_filename, function(text){
         var data = JSON.parse(text);
-        console.log(data[0]);
+        console.log("Callback Worked");
+        console.log(data["all_recipes"][0]["name"]);
     });
+    document.getElementById('test').innerHTML = "End Method"
 }
 
 function getTotalRecipes(){
-    document.getElementById('test').innerHTML = "Start Method"
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
-    document.getElementById('total-recipe').innerHTML = Math.ceil(total_serv / serv_per_recipe).toString()
-    document.getElementById('test').innerHTML = "End Method"
+    document.getElementById('total-recipe').innerHTML = Math.ceil(total_serv / serv_per_recipe).toString();
 }
 
 function getTextAreaList(ta_id){
