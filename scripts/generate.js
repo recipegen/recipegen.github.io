@@ -28,7 +28,7 @@ function pickRecipes(){
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
 
-    return_text = "<div>" + total_serv.toString() + "</div>"
+    var return_text = "<div>" + total_serv.toString() + "</div>"
     return_text += "<div>" + serv_per_recipe.toString() + "</div><div>"
     for (let i = 0; i < req_itms.length; i++) {
         return_text += req_itms[i] + "|^";
