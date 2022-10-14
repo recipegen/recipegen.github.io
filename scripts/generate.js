@@ -63,11 +63,11 @@ function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
             var recipe_df = recipe_database.all_recipes[recipe_combo_idxs[i]].recipe;
             for (let j = 0; j < recipe_df.length; j++) {
                 var recipe_item = recipe_df[j].item.toLowerCase();
-                log.console("Current Item: " + recipe_item)
+                console.log("Current Item: " + recipe_item)
                 var req_itms_idx = req_itms.indexOf(recipe_item);
                 if (req_itms_idx != -1) {
                     has_req_itms[req_itms_idx] = true;
-                    log.console("    Found Item: " + recipe_item)
+                    console.log("    Found Item: " + recipe_item)
                 }
             }
         }
