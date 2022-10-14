@@ -88,8 +88,13 @@ function pickRecipes(){
         combo_iters++;
     }
 
-    console.log(best_combo.toString());
-    document.getElementById('test').innerHTML = best_combo.toString();
+    var to_return = ""
+    for (let i = 0; i < best_combo.length; i++) {
+        to_return += "<div><a href=\"" + recipe_database.all_recipes[best_combo[i]].url + "\">" + recipe_database.all_recipes[best_combo[i]].name + "</a></div>"
+    }
+
+    console.log(to_return);
+    document.getElementById('test').innerHTML = to_return;
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes);
 
