@@ -1,25 +1,14 @@
 
-recipe_database_filename = 'recipe_database/recipe_database.json'
+import recipe_database from './recipe_database/recipe_database.json' assert {type: 'json'};
 
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
-}
+console.log(recipe_database.all_recipes[0].name)
+console.log(recipe_database.all_recipes[0].url)
+
+console.log(recipe_database.all_recipes[1].name)
+console.log(recipe_database.all_recipes[1].url)
 
 function readAllRecipes(){
-    recipe_dict_list = readTextFile(recipe_database_filename, function(text){
-        var data = JSON.parse(text);
-        document.getElementById('test').innerHTML = data["all_recipes"][0]["name"]
-        console.log("Callback Worked");
-        console.log(data["all_recipes"][0]["name"]);
-    });
+    document.getElementById('test').innerHTML = recipe_database.all_recipes[0].name
 }
 
 function getTotalRecipes(){
