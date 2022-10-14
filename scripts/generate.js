@@ -40,8 +40,9 @@ function pickRecipes(){
     return_text = return_text.substring(0, return_text.length - 2) + "</div>"
     return_text += "<div>" + recipe_database.all_recipes[0].name + "</div>"
     return_text += "<div>" + recipe_database.all_recipes[0].url + "</div>"
+    console.log(return_text)
     document.getElementById('test').innerHTML = return_text
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes)
 
-export { readAllRecipes, getTotalRecipes }
+export { getTotalRecipes, pickRecipes }
