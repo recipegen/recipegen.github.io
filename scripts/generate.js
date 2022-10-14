@@ -66,7 +66,7 @@ function pickRecipes(){
 
     var recipe_valid = [];
     var recipe_valid_idxs = [];
-    for (i = 0; i < recipe_database.all_recipes.length; i++) {
+    for (let i = 0; i < recipe_database.all_recipes.length; i++) {
         var is_valid_recipe = isValidRecipe(i, unwant_itms);
         recipe_valid.push(is_valid_recipe);
         if (is_valid_recipe) {
