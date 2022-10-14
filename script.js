@@ -20,9 +20,11 @@ function readAllRecipes(){
 }
 
 function getTotalRecipes(){
+    document.getElementById('test').innerHTML = "Start Method"
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
     document.getElementById('total-recipe').innerHTML = Math.ceil(total_serv / serv_per_recipe).toString()
+    document.getElementById('test').innerHTML = "End Method"
 }
 
 function getTextAreaList(ta_id){
