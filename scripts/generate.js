@@ -63,13 +63,16 @@ function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
             var recipe_df = recipe_database.all_recipes[recipe_combo_idxs[i]].recipe;
             for (let j = 0; j < recipe_df.length; j++) {
                 var recipe_item = recipe_df[j].item.toLowerCase();
+                log.console("Current Item: " + recipe_item)
                 var req_itms_idx = req_itms.indexOf(recipe_item);
                 if (req_itms_idx != -1) {
                     has_req_itms[req_itms_idx] = true;
+                    log.console("    Found Item: " + recipe_item)
                 }
             }
         }
 
+        console.log(has_req_itms.toString())
         return !has_req_itms.includes(false);
     }
     return true;
@@ -94,7 +97,7 @@ function pickRecipes(){
     console.log("Total Valid Recipes: " + recipe_valid_idxs.length.toString());
 
     var combo_iters = 0;
-    var max_tries = 1000000;
+    var max_tries = 5;
     var recipe_combo_idxs = [];
     while (combo_iters < max_tries) {
         recipe_combo_idxs = [];
