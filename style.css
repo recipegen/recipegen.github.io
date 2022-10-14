@@ -1,0 +1,65 @@
+/* General Styling */
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+li a:hover {
+    background-color: white;
+}
+
+div {
+    display: block;
+    margin: 1em;
+}
+
+h1 {
+    font-family: monospace;
+    font-size: 3em;
+}
+
+label {
+    font-family: monospace;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+input {
+    font-family: monospace;
+    font-size: 1.5em;
+}
+
+button {
+    font-family: monospace;
+    font-size: 1.5em;
+}
+
+/* Specific Styling */
+
+div.num-input {
+    width: 20em;
+}
+
+span.num-input {
+    float: right;
+}
