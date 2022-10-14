@@ -1,11 +1,6 @@
 
 import recipe_database from './recipe_database/recipe_database.json' assert {type: 'json'};
-
-console.log(recipe_database.all_recipes[0].name);
-console.log(recipe_database.all_recipes[0].url);
-
-console.log(recipe_database.all_recipes[1].name);
-console.log(recipe_database.all_recipes[1].url);
+console.log("Total Recipes Loaded: " + recipe_database.all_recipes.length.toString())
 
 function getTotalRecipes(){
     var total_serv = document.getElementById("total-serv").value;
@@ -90,10 +85,12 @@ function pickRecipes(){
             recipe_valid_idxs.push(i);
         }
     }
+    console.log("Total Valid Recipes: " + recipe_valid_idxs.length.toString())
 
     var combo_iters = 0;
+    var max_tries = 1000000;
     var recipe_combo_idxs = [];
-    while (combo_iters < 1000) {
+    while (combo_iters < max_tries) {
         recipe_combo_idxs = [];
         while (recipe_combo_idxs.length < total_recipe) {
             var rand_idx = recipe_valid_idxs[Math.floor(Math.random() * recipe_valid_idxs.length)];
@@ -107,13 +104,15 @@ function pickRecipes(){
         }
         combo_iters++;
     }
+    if (combo_iters >= max_tries) {
+        console.log("Recipe Generation Failed: No Combos Found after " + max_tries.toString() + " tries")
+    }
 
     var to_return = "";
     for (let i = 0; i < recipe_combo_idxs.length; i++) {
         to_return += "<div><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"" + recipe_database.all_recipes[recipe_combo_idxs[i]].url + "\">" + recipe_database.all_recipes[recipe_combo_idxs[i]].name + "</a></div>";
     }
 
-    console.log(to_return);
     document.getElementById('test').innerHTML = to_return;
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes);
