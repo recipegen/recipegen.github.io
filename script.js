@@ -42,3 +42,5 @@ function pickRecipes(){
     return_text = return_text.substring(0, return_text.length - 2) + "</div>"
     document.getElementById('test').innerHTML = return_text
 }
+
+export { readAllRecipes, getTotalRecipes }
