@@ -7,11 +7,6 @@ console.log(recipe_database.all_recipes[0].url)
 console.log(recipe_database.all_recipes[1].name)
 console.log(recipe_database.all_recipes[1].url)
 
-function readAllRecipes(){
-    document.getElementById('test').innerHTML = recipe_database.all_recipes[0].name
-}
-document.querySelector('#generate').addEventListener('click', readAllRecipes)
-
 function getTotalRecipes(){
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
@@ -43,7 +38,10 @@ function pickRecipes(){
         return_text += unwant_itms[i] + "|^";
     }
     return_text = return_text.substring(0, return_text.length - 2) + "</div>"
+    return_text += "<div>" + recipe_database.all_recipes[0].name + "</div>"
+    return_text += "<div>" + recipe_database.all_recipes[0].url + "</div>"
     document.getElementById('test').innerHTML = return_text
 }
+document.querySelector('#generate').addEventListener('click', pickRecipes)
 
 export { readAllRecipes, getTotalRecipes }
