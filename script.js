@@ -10,6 +10,7 @@ console.log(recipe_database.all_recipes[1].url)
 function readAllRecipes(){
     document.getElementById('test').innerHTML = recipe_database.all_recipes[0].name
 }
+document.querySelector('#generate').addEventListener('click', readAllRecipes)
 
 function getTotalRecipes(){
     var total_serv = document.getElementById("total-serv").value;
