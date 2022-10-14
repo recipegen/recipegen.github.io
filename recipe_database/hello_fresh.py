@@ -118,6 +118,7 @@ def __get_recipe_df(recipe_soup):
     df = pd.DataFrame(recipe_dict_list, columns=['qty', 'unit', 'item'])
     df = df[df.item != 'unit']
     df['qty'] = df['qty'].apply(__parse_numeric)
+    df = df.fillna("")
     
     return df
 
@@ -129,7 +130,7 @@ def __rindex_val(x, elem, offset=0, exact=True):
         try:
             return x[len(x) - 1 - x_copy[::-1].index(elem_copy) + offset]
         except:
-            return None
+            return ""
     else:
         last_idx = None
         for i in range(len(x)):
@@ -137,7 +138,7 @@ def __rindex_val(x, elem, offset=0, exact=True):
                 last_idx = i
         if last_idx is not None:
             return x[last_idx + offset]
-        return None
+        return ""
 
 def __get_recipe_details(recipe_soup, url):
     recipe_details = {}

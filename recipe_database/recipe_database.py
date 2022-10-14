@@ -1,6 +1,7 @@
 import json
 import time
 import recipe
+import pandas as pd
 from tqdm import tqdm
 import hello_fresh as hf
 from multiprocessing import Pool, Lock
@@ -36,20 +37,33 @@ def __parse_all_recipes(verbose=True):
 
     return all_recipes
 
-def __save_all_recipes(verbose=True):
-    all_recipes = __parse_all_recipes(verbose=verbose)
+def __save_all_recipes(all_recipes=None, verbose=True):
+    if all_recipes is None:
+        all_recipes = __parse_all_recipes(verbose=verbose)
     all_recipes_dict = {'all_recipes': [recipe_obj.get_recipe_dict() for recipe_obj in all_recipes]}
 
     with open(__recipe_database_filename, 'w') as output_file:
         json.dump(all_recipes_dict, output_file)
 
+def __dict_clean(items):
+    result = {}
+    for key, value in items:
+        if value is None:
+            value = ''
+        elif value != value:
+            value = ''
+        result[key] = value
+    return result
+
 def read_all_recipes():
     all_recipes_dict = []
     with open(__recipe_database_filename, 'r') as input_file:
-        all_recipes_dict = json.load(input_file)
+        all_recipes_dict = json.loads(input_file.read(), object_pairs_hook=__dict_clean)
 
     all_recipes = [recipe.Recipe(recipe_dict=recipe_dict) for recipe_dict in all_recipes_dict['all_recipes']]
     return all_recipes
 
 if __name__ == "__main__":
-    __save_all_recipes(verbose=True)
+    #__save_all_recipes(verbose=True)
+    all_recipes = read_all_recipes()
+    __save_all_recipes(all_recipes=all_recipes)
