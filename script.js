@@ -10,6 +10,7 @@ function readTextFile(file, callback) {
             callback(rawFile.responseText);
         }
     }
+    rawFile.send(null);
 }
 
 function readAllRecipes(){
