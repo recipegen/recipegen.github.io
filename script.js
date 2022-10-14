@@ -10,7 +10,6 @@ function readTextFile(file, callback) {
             callback(rawFile.responseText);
         }
     }
-    rawFile.send(null);
 }
 
 function readAllRecipes(){
@@ -32,11 +31,6 @@ function getTextAreaList(ta_id){
     var ta_list = ta_str.split(",")
     return ta_list
 }
-
-readTextFile("/Users/Documents/workspace/test.json", function(text){
-    var data = JSON.parse(text);
-    console.log(data);
-});
 
 function pickRecipes(){
     var req_itms = getTextAreaList("req-itms")
