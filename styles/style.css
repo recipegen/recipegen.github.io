@@ -53,13 +53,3 @@ button {
     font-family: monospace;
     font-size: 1.5em;
 }
-
-/* Specific Styling */
-
-div.num-input {
-    width: 20em;
-}
-
-span.num-input {
-    float: right;
-}
