@@ -10,14 +10,17 @@ function getTotalRecipes(){
 document.querySelector('#total-serv').addEventListener('change', getTotalRecipes);
 document.querySelector('#serv-per-recipe').addEventListener('change', getTotalRecipes);
 
-function getTextAreaList(ta_id){
+function getTextAreaArray(ta_id){
     var ta_str = document.getElementById(ta_id).value;
     ta_str = ta_str.replaceAll(", ", ",");
-    var ta_list = ta_str.split(",");
-    for (let i = 0; i < ta_list.length; i++) {
-        ta_list[i] = ta_list[i].toLowerCase();
+    var ta_arr = ta_str.split(",");
+    for (let i = 0; i < ta_arr.length; i++) {
+        ta_arr[i] = ta_arr[i].toLowerCase();
     }
-    return ta_list;
+    if (ta_arr.includes("")) {
+        ta_arr = []
+    }
+    return ta_arr;
 }
 
 function isValidRecipe(recipe_idx, unwant_itms){
@@ -73,8 +76,8 @@ function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
 }
 
 function pickRecipes(){
-    var req_itms = getTextAreaList("req-itms");
-    var unwant_itms = getTextAreaList("unwant-itms");
+    var req_itms = getTextAreaArray("req-itms");
+    var unwant_itms = getTextAreaArray("unwant-itms");
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
     var total_recipe = Math.ceil(total_serv / serv_per_recipe);
@@ -91,7 +94,7 @@ function pickRecipes(){
     console.log("Total Valid Recipes: " + recipe_valid_idxs.length.toString());
 
     var combo_iters = 0;
-    var max_tries = 1000000;
+    var max_tries = 1000000000;
     var recipe_combo_idxs = [];
     while (combo_iters < max_tries) {
         recipe_combo_idxs = [];
