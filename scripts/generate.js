@@ -47,12 +47,32 @@ function isValidRecipe(recipe_idx, unwant_itms){
             }
 
             var item_words = recipe_item.split(" ");
-            for (let i = 0; i < item_words.length; i++) {
-                if (unwant_itms.includes(item_words[i])) {
+            for (let j = 0; j < item_words.length; j++) {
+                if (unwant_itms.includes(item_words[j])) {
                     return false;
                 }
             }
         }
+    }
+    return true;
+}
+
+function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
+    if (req_itms.length != 0) {
+        var has_req_itms = new Array(req_itms.length).fill(false);
+
+        for (let i = 0; i < recipe_combo_idxs; i++) {
+            var recipe_df = recipe_database.all_recipes[i].recipe;
+            for (let j = 0; j < recipe_df.length; j++) {
+                var recipe_item = recipe_df[j].item.toLowerCase();
+                var req_itms_idx = req_itms.indexOf(recipe_item);
+                if (req_itms_idx != -1) {
+                    has_req_itms[req_itms_idx] = true;
+                }
+            }
+        }
+
+        return !has_req_itms.includes(false);
     }
     return true;
 }
@@ -64,33 +84,33 @@ function pickRecipes(){
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
     var total_recipe = Math.ceil(total_serv / serv_per_recipe);
 
-    var recipe_valid = [];
     var recipe_valid_idxs = [];
     for (let i = 0; i < recipe_database.all_recipes.length; i++) {
-        var is_valid_recipe = isValidRecipe(i, unwant_itms);
-        recipe_valid.push(is_valid_recipe);
-        if (is_valid_recipe) {
+        if (isValidRecipe(i, unwant_itms)) {
             recipe_valid_idxs.push(i);
         }
     }
 
-    var best_combo = [];
     var combo_iters = 0;
+    var recipe_combo_idxs = [];
     while (combo_iters < 1000) {
-        var rand_idxs = [];
-        while (rand_idxs.length < total_recipe) {
-            var rand_idx = Math.floor(Math.random() * recipe_valid_idxs.length)
-            if (!rand_idxs.includes(rand_idx)) {
-                rand_idxs.push(rand_idx);
+        recipe_combo_idxs = [];
+        while (recipe_combo_idxs.length < total_recipe) {
+            var rand_idx = recipe_valid_idxs[Math.floor(Math.random() * recipe_valid_idxs.length)];
+            if (!recipe_combo_idxs.includes(rand_idx)) {
+                recipe_combo_idxs.push(rand_idx);
             }
         }
-        best_combo = rand_idxs
+
+        if (isValidRecipeCombo(recipe_combo_idxs, req_itms)) {
+            break;
+        }
         combo_iters++;
     }
 
-    var to_return = ""
-    for (let i = 0; i < best_combo.length; i++) {
-        to_return += "<div><a href=\"" + recipe_database.all_recipes[best_combo[i]].url + "\">" + recipe_database.all_recipes[best_combo[i]].name + "</a></div>"
+    var to_return = "";
+    for (let i = 0; i < recipe_combo_idxs.length; i++) {
+        to_return += "<div><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"" + recipe_database.all_recipes[recipe_combo_idxs[i]].url + "\">" + recipe_database.all_recipes[recipe_combo_idxs[i]].name + "</a></div>";
     }
 
     console.log(to_return);
