@@ -17,6 +17,7 @@ function getTotalRecipes(){
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
     document.getElementById('total-recipe').innerHTML = Math.ceil(total_serv / serv_per_recipe).toString();
 }
+document.querySelector('#generate').addEventListener('change', getTotalRecipes)
 
 function getTextAreaList(ta_id){
     var ta_str = document.getElementById(ta_id).value;
