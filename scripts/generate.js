@@ -73,6 +73,36 @@ function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
     return true;
 }
 
+function genGroceryList(recipe_combo_idxs) {
+    var grocery_list_df = [];
+    for (let i = 0; i < recipe_combo_idxs.length; i++) {
+        var recipe_df = recipe_database.all_recipes[recipe_combo_idxs[i]].recipe;
+        for (let j = 0; j < recipe_df.length; j++) {
+            grocery_list_df.push(recipe_df[j])
+        }
+    }
+
+    grocery_list_df.sort(function(first, second) {
+        return first.item.localeCompare(second.item);
+    });
+
+    var new_grocery_list_df = [];
+    for (let i = 0; i < grocery_list_df.length; i++) {
+        var found_agg = false;
+        for (let j = 0; j < new_grocery_list_df.length; j++) {
+            if (grocery_list_df[i].item.localeCompare(new_grocery_list_df[j].item) == 0 && grocery_list_df[i].unit.localeCompare(new_grocery_list_df[j].unit) == 0) {
+                new_grocery_list_df[j].qty += grocery_list_df[i].qty;
+                found_agg = true;
+            }
+        }
+        if (!found_agg) {
+            new_grocery_list_df.push(grocery_list_df[i]);
+        }
+    }
+
+    return new_grocery_list_df;
+}
+
 function pickRecipes(){
     var req_itms = getTextAreaArray("req-itms");
     var unwant_itms = getTextAreaArray("unwant-itms");
@@ -108,16 +138,29 @@ function pickRecipes(){
         }
         combo_iters++;
     }
+
     if (combo_iters >= max_tries) {
-        console.log("Recipe Generation Failed: No Combos Found after " + max_tries.toString() + " tries")
+        console.log("Recipe Generation Failed: No Combos Found after " + max_tries.toString() + " tries");
     }
+    else { 
+        console.log("Recipe Generation Success: Combo Found after " + combo_iters.toString() + " tries");
 
-    var to_return = "";
-    for (let i = 0; i < recipe_combo_idxs.length; i++) {
-        to_return += "<div><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"" + recipe_database.all_recipes[recipe_combo_idxs[i]].url + "\">" + recipe_database.all_recipes[recipe_combo_idxs[i]].name + "</a></div>";
+        grocery_list_df = genGroceryList(recipe_combo_idxs);
+
+        var to_return = "";
+        for (let i = 0; i < recipe_combo_idxs.length; i++) {
+            to_return += "<div><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"" + recipe_database.all_recipes[recipe_combo_idxs[i]].url + "\">" + recipe_database.all_recipes[recipe_combo_idxs[i]].name + "</a></div>";
+        }
+
+        to_return += "<div><table><tr><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
+        for (let i = 0; i < grocery_list_df.length; i++) {
+            to_return += "<tr><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
+        }
+        to_return += "</table></div>"
+
+        console.log(to_return);
+        document.getElementById('test').innerHTML = to_return;
     }
-
-    document.getElementById('test').innerHTML = to_return;
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes);
 
