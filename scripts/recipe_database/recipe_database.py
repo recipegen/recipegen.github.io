@@ -1,3 +1,4 @@
+import sys
 import json
 import time
 import recipe
@@ -7,6 +8,7 @@ import hello_fresh as hf
 from multiprocessing import Pool, Lock
 
 __recipe_database_filename = 'recipe_database.json'
+__itm_cat_map_filename = 'item_category_mapping.json'
 
 def __verbose_print(to_print, verbose):
     if verbose:
@@ -55,7 +57,7 @@ def __dict_clean(items):
         result[key] = value
     return result
 
-def read_all_recipes():
+def __read_all_recipes():
     all_recipes_dict = []
     with open(__recipe_database_filename, 'r') as input_file:
         all_recipes_dict = json.loads(input_file.read(), object_pairs_hook=__dict_clean)
@@ -63,7 +65,36 @@ def read_all_recipes():
     all_recipes = [recipe.Recipe(recipe_dict=recipe_dict) for recipe_dict in all_recipes_dict['all_recipes']]
     return all_recipes
 
+def __save_itm_cat_map(itm_cat_map):
+    with open(__itm_cat_map_filename, 'w') as output_file:
+        json.dump(itm_cat_map, output_file)
+
+def __read_itm_cat_map():
+    itm_cat_map = {}
+    with open(__itm_cat_map_filename, 'r') as input_file:
+        itm_cat_map = json.loads(input_file.read(), object_pairs_hook=__dict_clean)
+
+    return itm_cat_map
+
+def __get_new_itm_cat(all_recipes, itm_cat_map):
+    for r in all_recipes:
+        recipe_df = r.get_recipe_df()
+        for idx, row in recipe_df.iterrows():
+            if row['item'].lower() not in itm_cat_map.keys():
+                new_cat = input('Enter Category for \"' + row['item'] + '\":\t')
+                new_cat = new_cat[0].upper() + new_cat[1:]
+                itm_cat_map[row['item'].lower()] = new_cat
+    return itm_cat_map
+
 if __name__ == "__main__":
-    #__save_all_recipes(verbose=True)
-    all_recipes = read_all_recipes()
-    __save_all_recipes(all_recipes=all_recipes)
+    if sys.argv[1] == "save":
+        __save_all_recipes(verbose=True)
+    elif sys.argv[1] == "clean":
+        all_recipes = __read_all_recipes()
+        __save_all_recipes(all_recipes=all_recipes)
+    elif sys.argv[1] == "cat":
+        all_recipes = __read_all_recipes()
+        itm_cat_map = __read_itm_cat_map()
+        itm_cat_map = __get_new_itm_cat(all_recipes[:1], itm_cat_map)
+        __save_itm_cat_map(itm_cat_map)
+

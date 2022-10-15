@@ -109,11 +109,15 @@ function genGroceryList(recipe_combo_idxs) {
                     item: new_grocery_list_df[i].item,
                     unit: new_grocery_list_df[i].unit,
                     qty: new_grocery_list_df[i].qty};
-        if (new_grocery_list_df[i].item in itm_cat_map) {
-            new_row.cat = itm_cat_map[new_grocery_list_df[i].item];
+        if (new_grocery_list_df[i].item.toLowerCase() in itm_cat_map) {
+            new_row.cat = itm_cat_map[new_grocery_list_df[i].item.toLowerCase()];
         }
         cat_grocery_list_df.push(new_row);
     }
+
+    cat_grocery_list_df.sort(function(first, second) {
+        return first.cat.localeCompare(second.cat);
+    });
 
     return cat_grocery_list_df;
 }
@@ -168,9 +172,9 @@ function pickRecipes(){
         }
         document.getElementById('output-recipe').innerHTML = output_html;
 
-        output_html = "<label>Grocery List</label><table><tr><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
+        output_html = "<label>Grocery List</label><table><tr><th>Category</th><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
         for (let i = 0; i < grocery_list_df.length; i++) {
-            output_html += "<tr><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
+            output_html += "<tr><td>" + grocery_list_df[i].cat + "</td><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
         }
         document.getElementById('output-grocery').innerHTML = output_html + "</table>";
     }
