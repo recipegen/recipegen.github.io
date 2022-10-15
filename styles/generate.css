@@ -1,5 +1,14 @@
 /* Specific Styling */
 
+span.input-side {
+    float: left;
+    width: 30em;
+}
+
+span.output-side {
+    float: left;
+}
+
 div.num-input {
     width: 20em;
 }

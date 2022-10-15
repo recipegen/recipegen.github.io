@@ -53,3 +53,22 @@ button {
     font-family: monospace;
     font-size: 1.5em;
 }
+
+table {
+    font-family: monospace;
+    font-size: 1.5em;
+}
+
+th, td {
+    padding-top: 0.75em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+th {
+    background-color: #f3f3f3;
+}
+
+tr:hover {
+    background-color: #f3f3f3;
+}
