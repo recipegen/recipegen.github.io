@@ -2,6 +2,9 @@
 import recipe_database from './recipe_database/recipe_database.json' assert {type: 'json'};
 console.log("Total Recipes Loaded: " + recipe_database.all_recipes.length.toString())
 
+import itm_cat_map from './recipe_database/item_category_mapping.json' assert {type: 'json'};
+console.log("Total Items Mapped: " + Object.keys(itm_cat_map).length.toString())
+
 function getTotalRecipes(){
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
@@ -100,7 +103,19 @@ function genGroceryList(recipe_combo_idxs) {
         }
     }
 
-    return new_grocery_list_df;
+    var cat_grocery_list_df = [];
+    for (let i = 0; i < new_grocery_list_df.length; i++) {
+        var new_row = {cat: "", 
+                    item: new_grocery_list_df[i].item,
+                    unit: new_grocery_list_df[i].unit,
+                    qty: new_grocery_list_df[i].qty};
+        if (new_grocery_list_df[i].item in itm_cat_map) {
+            new_row.cat = itm_cat_map[new_grocery_list_df[i].item];
+        }
+        cat_grocery_list_df.push(new_row);
+    }
+
+    return cat_grocery_list_df;
 }
 
 function pickRecipes(){
