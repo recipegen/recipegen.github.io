@@ -145,7 +145,7 @@ function pickRecipes(){
     else { 
         console.log("Recipe Generation Success: Combo Found after " + combo_iters.toString() + " tries");
 
-        grocery_list_df = genGroceryList(recipe_combo_idxs);
+        var grocery_list_df = genGroceryList(recipe_combo_idxs);
 
         var to_return = "";
         for (let i = 0; i < recipe_combo_idxs.length; i++) {
@@ -156,10 +156,10 @@ function pickRecipes(){
         for (let i = 0; i < grocery_list_df.length; i++) {
             to_return += "<tr><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
         }
-        to_return += "</table></div>"
+        to_return += "</table></div>";
 
         console.log(to_return);
-        document.getElementById('test').innerHTML = to_return;
+        document.getElementById('recipe-gen').innerHTML = to_return;
     }
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes);

@@ -22,49 +22,51 @@
 
         <h1>Recipe-Gen</h1>
         <main>
-            <div class="num-input">
-                <span>
-                    <label>Total Servings     </label>
-                </span>
-                <span class="num-input">
-                    <input type="number" id="total-serv" name="total-serv" value="8" min="2" max="100">
-                </span>
-            </div>
-            <div class="num-input">
-                <span>
-                    <label>Servings Per Recipe</label>
-                </span>
-                <span class="num-input">
-                    <input type="number" id="serv-per-recipe" name="serv-per-recipe" value="4" min="2" max="100">
-                </span>
-            </div>
-            <div class="num-input">
-                <span>
-                    <label>Total Recipes</label>
-                </span>
-                <span class="num-input">
-                    <label id="total-recipe" name="total-recipe">2</label>
-                </span>
-            </div>
-            <br></br>
-            <div>
-                <label>Required Items</label>
-            </div>
-            <div>
-                <textarea id="req-itms" name="req-itms" cols="40" rows="5"></textarea>
-            </div>
-            <div>
-                <label>Unwanted Items</label>
-            </div>
-            <div>
-                <textarea id="unwant-itms" name="unwant-itms" cols="40" rows="5">meat, beef, steak, pork, chicken, turkey, chorizo, duck, prosciutto, bacon</textarea>
-            </div>
-            <div>
-                <button type="button" id="generate">Generate</button>
-            </div>
-            <div>
-                <label id="test" name="test">Test</label>
-            </div>
+            <span>
+                <div class="num-input">
+                    <span>
+                        <label>Total Servings     </label>
+                    </span>
+                    <span class="num-input">
+                        <input type="number" id="total-serv" name="total-serv" value="8" min="2" max="100">
+                    </span>
+                </div>
+                <div class="num-input">
+                    <span>
+                        <label>Servings Per Recipe</label>
+                    </span>
+                    <span class="num-input">
+                        <input type="number" id="serv-per-recipe" name="serv-per-recipe" value="4" min="2" max="100">
+                    </span>
+                </div>
+                <div class="num-input">
+                    <span>
+                        <label>Total Recipes</label>
+                    </span>
+                    <span class="num-input">
+                        <label id="total-recipe" name="total-recipe">2</label>
+                    </span>
+                </div>
+                <br></br>
+                <div>
+                    <label>Required Items</label>
+                </div>
+                <div>
+                    <textarea id="req-itms" name="req-itms" cols="40" rows="5"></textarea>
+                </div>
+                <div>
+                    <label>Unwanted Items</label>
+                </div>
+                <div>
+                    <textarea id="unwant-itms" name="unwant-itms" cols="40" rows="5">meat, beef, steak, pork, chicken, turkey, chorizo, duck, prosciutto, bacon</textarea>
+                </div>
+                <div>
+                    <button type="button" id="generate">Generate</button>
+                </div>
+            </span>
+            <span>
+                <label id="recipe-gen" name="recipe-gen"></label>
+            </span>
         </main>
     </body>
 </html>
