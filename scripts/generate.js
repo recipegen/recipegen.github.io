@@ -147,15 +147,15 @@ function pickRecipes(){
 
         var grocery_list_df = genGroceryList(recipe_combo_idxs);
 
-        var output_html = "";
+        var output_html = "<label>Generated Recipes</label>";
         for (let i = 0; i < recipe_combo_idxs.length; i++) {
             output_html += "<div><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"" + recipe_database.all_recipes[recipe_combo_idxs[i]].url + "\">" + recipe_database.all_recipes[recipe_combo_idxs[i]].name + "</a></div>";
         }
         document.getElementById('output-recipe').innerHTML = output_html;
 
-        output_html = "<table><tr><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
+        output_html = "<label>Grocery List</label><table><tr><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
         for (let i = 0; i < grocery_list_df.length; i++) {
-            to_return += "<tr><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
+            output_html += "<tr><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
         }
         document.getElementById('output-grocery').innerHTML = output_html + "</table>";
     }
