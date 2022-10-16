@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import time
@@ -9,6 +10,8 @@ from multiprocessing import Pool, Lock
 
 __recipe_database_filename = 'recipe_database.json'
 __itm_cat_map_filename = 'item_category_mapping.json'
+
+itm_cats = ["Produce", "Meat", "Seafood", "Bakery", "Dairy", "Frozen", "Grains", "Canned Goods", "Dry Goods", "Snacks", "Sauces", "Oils", "Spices", "Beverages"]
 
 def __verbose_print(to_print, verbose):
     if verbose:
@@ -76,14 +79,23 @@ def __read_itm_cat_map():
 
     return itm_cat_map
 
+def __get_cat_input(item, iter, tot_iter):
+    os.system('cls')
+    print('Recipe [' + str(iter) + '/' + str(tot_iter) + ']\n')
+    for i in range(len(itm_cats)):
+        print(str(i) + '\t' + itm_cats[i])
+    print('')
+    new_cat = input('Enter Cat Num for \"' + item + '\":\t')
+    return itm_cats[int(new_cat)]
+
 def __get_new_itm_cat(all_recipes, itm_cat_map):
+    count = 1
     for r in all_recipes:
         recipe_df = r.get_recipe_df()
         for idx, row in recipe_df.iterrows():
             if row['item'].lower() not in itm_cat_map.keys():
-                new_cat = input('Enter Category for \"' + row['item'] + '\":\t')
-                new_cat = new_cat[0].upper() + new_cat[1:]
-                itm_cat_map[row['item'].lower()] = new_cat
+                itm_cat_map[row['item'].lower()] = __get_cat_input(row['item'], count, len(all_recipes))
+        count += 1
     return itm_cat_map
 
 if __name__ == "__main__":
@@ -95,6 +107,6 @@ if __name__ == "__main__":
     elif sys.argv[1] == "cat":
         all_recipes = __read_all_recipes()
         itm_cat_map = __read_itm_cat_map()
-        itm_cat_map = __get_new_itm_cat(all_recipes[:1], itm_cat_map)
+        itm_cat_map = __get_new_itm_cat(all_recipes[:10], itm_cat_map)
         __save_itm_cat_map(itm_cat_map)
 

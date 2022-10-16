@@ -5,6 +5,8 @@ console.log("Total Recipes Loaded: " + recipe_database.all_recipes.length.toStri
 import itm_cat_map from './recipe_database/item_category_mapping.json' assert {type: 'json'};
 console.log("Total Items Mapped: " + Object.keys(itm_cat_map).length.toString())
 
+const itm_cats = ["Produce", "Meat", "Seafood", "Bakery", "Dairy", "Frozen", "Grains", "Canned Goods", "Dry Goods", "Snacks", "Sauces", "Oils", "Spices", "Beverages"]
+
 function getTotalRecipes(){
     var total_serv = document.getElementById("total-serv").value;
     var serv_per_recipe = document.getElementById("serv-per-recipe").value;
@@ -116,7 +118,7 @@ function genGroceryList(recipe_combo_idxs) {
     }
 
     cat_grocery_list_df.sort(function(first, second) {
-        return first.cat.localeCompare(second.cat);
+        return itm_cats.indexOf(first.cat) - itm_cats.indexOf(second.cat);
     });
 
     return cat_grocery_list_df;
