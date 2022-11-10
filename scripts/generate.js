@@ -226,7 +226,7 @@ function removeCheckRow(){
     }
     console.log(gl_rows)
 
-    final_html = ""
+    var final_html = ""
     for (let i = 0; i < gl_rows.length; i++) {
         final_html += "<tr>" + gl_rows[i] + "</tr>"
     }
