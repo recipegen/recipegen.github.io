@@ -207,21 +207,24 @@ function removeCheckRow(){
     gl_html = replaceHTML(gl_html, "<tbody>", "")
     gl_html = replaceHTML(gl_html, "</tbody>", "")
     gl_html = replaceHTML(gl_html, "<tr>", "")
-    var gl_rows = gl_html.split("</tr>");
+    var gl_rows = gl_html.split("</tr>").slice(0, -1);
     console.log(gl_rows);
 
     var gl_ids = [];
-    for (let i = 0; i < gl_rows.length; i++) {
+    for (let i = 1; i < gl_rows.length; i++) {
         gl_ids.push(searchHTML(gl_rows[i], "<input type=\"checkbox\" id=\"", "\">"))
     }
     console.log(gl_ids);
 
-    for (let i = 0; i < gl_ids.length; i++) {
+    for (let i = gl_ids.length - 1; i >= 0; i--) {
         if (document.getElementById(gl_ids[i]).checked) {
             console.log(gl_ids[i]);
             console.log(gl_rows[i]);
+
+            gl_rows.splice(i+1, 1)
         }
     }
+    console.log(gl_rows)
 }
 
 export { getTotalRecipes, pickRecipes }
