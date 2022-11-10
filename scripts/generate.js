@@ -189,20 +189,29 @@ function pickRecipes(){
 document.querySelector('#generate').addEventListener('click', pickRecipes);
 
 function removeCheckRow(){
-    console.log("Trying to remove this checkbox row")
+    console.log("Trying to remove this checkbox row");
 
-    var gl_html = document.getElementById('grocery-list-table').innerHTML
-    var gl_rows = gl_html.split("</tr>")
-    gl_rows.shift()
-    gl_rows.pop()
+    var gl_html = document.getElementById('grocery-list-table').innerHTML;
+
+    var gl_rows = gl_html.split("</tr>");
+    console.log(gl_rows);
+    gl_rows.shift();
+    gl_rows.pop();
+    console.log(gl_rows);
+
+    var gl_ids = [];
     for (let i = 0; i < gl_rows.length; i++) {
-        console.log(gl_rows[i].substring(4))
+        const id_search_str = "<input type=\"checkbox\" id=\"";
+        var id = gl_rows[i].substring(gl_rows[i].indexOf(id_search_str) + id_search_str.length);
+        gl_ids.push(id.substring(0, id.indexOf("\">")));
     }
-    for (let i = 0; i < gl_rows.length; i++) {
-        const id_search_str = "<input type=\"checkbox\" id=\""
-        var id = gl_rows[i].substring(gl_rows[i].indexOf(id_search_str) + id_search_str.length)
-        id = id.substring(0, id.indexOf("\">"))
-        console.log(id)
+    console.log(gl_ids);
+
+    for (let i = 0; i < gl_ids.length; i++) {
+        if (document.getElementById(gl_ids[i]).checked) {
+            console.log(gl_ids[i])
+            console.log(gl_rows[i])
+        }
     }
 }
 
