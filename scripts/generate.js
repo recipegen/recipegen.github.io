@@ -174,13 +174,22 @@ function pickRecipes(){
         }
         document.getElementById('output-recipe').innerHTML = output_html;
 
-        output_html = "<label>Grocery List</label><table><tr><th>Category</th><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
+        output_html = "<label>Grocery List</label><table><tr><th></th><th>Category</th><th>Item</th><th>Unit</th><th>Quantity</th></tr>";
         for (let i = 0; i < grocery_list_df.length; i++) {
-            output_html += "<tr><td>" + grocery_list_df[i].cat + "</td><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
+            output_html += "<tr><td><input type=\"checkbox\" id=\"grocery-list-checkbox-" + i.toString() + "\"></td><td>" + grocery_list_df[i].cat + "</td><td>" + grocery_list_df[i].item + "</td><td>" + grocery_list_df[i].unit + "</td><td>" + grocery_list_df[i].qty + "</td></tr>";
         }
         document.getElementById('output-grocery').innerHTML = output_html + "</table>";
+
+        var grocery_list_checkbox_elements = document.querySelectorAll('[id^="grocery-list-checkbox"]');
+        for (let i = 0; i < grocery_list_checkbox_elements.length; i++) {
+            grocery_list_checkbox_elements[i].addEventListener('change', removeCheckRow)
+        }
     }
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes);
+
+function removeCheckRow(){
+    console.log("Trying to remove this checkbox row")
+}
 
 export { getTotalRecipes, pickRecipes }
