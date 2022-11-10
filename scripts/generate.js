@@ -201,35 +201,33 @@ function searchHTML(input, search_start, search_end) {
 }
 
 function removeCheckRow(){
-    console.log("Trying to remove this checkbox row");
-
     var gl_html = document.getElementById('grocery-list-table').innerHTML;
-    gl_html = replaceHTML(gl_html, "<tbody>", "")
-    gl_html = replaceHTML(gl_html, "</tbody>", "")
-    gl_html = replaceHTML(gl_html, "<tr>", "")
+    gl_html = replaceHTML(gl_html, "<tbody>", "");
+    gl_html = replaceHTML(gl_html, "</tbody>", "");
+    gl_html = replaceHTML(gl_html, "<tr>", "");
     var gl_rows = gl_html.split("</tr>").slice(0, -1);
 
     var gl_ids = [];
     for (let i = 1; i < gl_rows.length; i++) {
-        gl_ids.push(searchHTML(gl_rows[i], "<input type=\"checkbox\" id=\"", "\">"))
+        gl_ids.push(searchHTML(gl_rows[i], "<input type=\"checkbox\" id=\"", "\">"));
     }
 
     for (let i = gl_ids.length - 1; i >= 0; i--) {
         if (document.getElementById(gl_ids[i]).checked) {
-            console.log(gl_ids[i]);
-            gl_rows.splice(i+1, 1)
+            console.log("Removing the following row: " + gl_ids[i]);
+            gl_rows.splice(i+1, 1);
         }
     }
 
-    var final_html = ""
+    var final_html = "";
     for (let i = 0; i < gl_rows.length; i++) {
-        final_html += "<tr>" + gl_rows[i] + "</tr>"
+        final_html += "<tr>" + gl_rows[i] + "</tr>";
     }
-    document.getElementById('grocery-list-table').innerHTML = final_html
+    document.getElementById('grocery-list-table').innerHTML = final_html;
 
     var grocery_list_checkbox_elements = document.querySelectorAll('[id^="grocery-list-checkbox"]');
     for (let i = 0; i < grocery_list_checkbox_elements.length; i++) {
-        grocery_list_checkbox_elements[i].addEventListener('change', removeCheckRow)
+        grocery_list_checkbox_elements[i].addEventListener('change', removeCheckRow);
     }
 }
 
