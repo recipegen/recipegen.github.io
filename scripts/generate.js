@@ -78,7 +78,7 @@ function isValidRecipeCombo(recipe_combo_idxs, req_itms) {
     return true;
 }
 
-function genGroceryList(recipe_combo_idxs) {
+function genGroceryList(recipe_combo_idxs, serv_per_recipe) {
     var grocery_list_df = [];
     for (let i = 0; i < recipe_combo_idxs.length; i++) {
         var recipe_df = recipe_database.all_recipes[recipe_combo_idxs[i]].recipe;
@@ -110,7 +110,7 @@ function genGroceryList(recipe_combo_idxs) {
         var new_row = {cat: "", 
                     item: new_grocery_list_df[i].item,
                     unit: new_grocery_list_df[i].unit,
-                    qty: new_grocery_list_df[i].qty};
+                    qty: (new_grocery_list_df[i].qty)*(serv_per_recipe/2)};
         if (new_grocery_list_df[i].item.toLowerCase() in itm_cat_map) {
             new_row.cat = itm_cat_map[new_grocery_list_df[i].item.toLowerCase()];
         }
@@ -166,7 +166,7 @@ function pickRecipes(){
     else { 
         console.log("Recipe Generation Success: Combo Found after " + combo_iters.toString() + " tries");
 
-        var grocery_list_df = genGroceryList(recipe_combo_idxs);
+        var grocery_list_df = genGroceryList(recipe_combo_idxs, serv_per_recipe);
 
         var output_html = "<label>Generated Recipes</label>";
         for (let i = 0; i < recipe_combo_idxs.length; i++) {
