@@ -5,7 +5,7 @@ console.log("Total Recipes Loaded: " + recipe_database.all_recipes.length.toStri
 import itm_cat_map from './recipe_database/item_category_mapping.json' assert {type: 'json'};
 console.log("Total Items Mapped: " + Object.keys(itm_cat_map).length.toString())
 
-const itm_cats = ["Produce", "Meat", "Seafood", "Bakery", "Dairy", "Frozen", "Grains", "Canned Goods", "Dry Goods", "Snacks", "Sauces", "Oils", "Spices", "Beverages"]
+const itm_cats = ["Produce", "Meat", "Seafood", "Bakery", "Dairy", "Frozen", "Grains", "Canned Goods", "Dry Goods", "Snacks", "Sauces", "Oils", "Spices", "Beverages", "Other"]
 
 function getTotalRecipes(){
     var total_serv = document.getElementById("total-serv").value;

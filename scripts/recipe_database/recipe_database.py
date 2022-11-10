@@ -11,7 +11,7 @@ from multiprocessing import Pool, Lock
 __recipe_database_filename = 'recipe_database.json'
 __itm_cat_map_filename = 'item_category_mapping.json'
 
-itm_cats = ["Produce", "Meat", "Seafood", "Bakery", "Dairy", "Frozen", "Grains", "Canned Goods", "Dry Goods", "Snacks", "Sauces", "Oils", "Spices", "Beverages"]
+itm_cats = ["Produce", "Meat", "Seafood", "Bakery", "Dairy", "Frozen", "Grains", "Canned Goods", "Dry Goods", "Snacks", "Sauces", "Oils", "Spices", "Beverages", "Other"]
 
 def __verbose_print(to_print, verbose):
     if verbose:
@@ -89,13 +89,16 @@ def __get_cat_input(item, iter, tot_iter):
     return itm_cats[int(new_cat)]
 
 def __get_new_itm_cat(all_recipes, itm_cat_map):
-    count = 1
-    for r in all_recipes:
-        recipe_df = r.get_recipe_df()
-        for idx, row in recipe_df.iterrows():
-            if row['item'].lower() not in itm_cat_map.keys():
-                itm_cat_map[row['item'].lower()] = __get_cat_input(row['item'], count, len(all_recipes))
-        count += 1
+    try:
+        count = 1
+        for r in all_recipes:
+            recipe_df = r.get_recipe_df()
+            for idx, row in recipe_df.iterrows():
+                if row['item'].lower() not in itm_cat_map.keys():
+                    itm_cat_map[row['item'].lower()] = __get_cat_input(row['item'], count, len(all_recipes))
+            count += 1
+    except KeyboardInterrupt as e:
+        pass
     return itm_cat_map
 
 if __name__ == "__main__":
@@ -107,6 +110,6 @@ if __name__ == "__main__":
     elif sys.argv[1] == "cat":
         all_recipes = __read_all_recipes()
         itm_cat_map = __read_itm_cat_map()
-        itm_cat_map = __get_new_itm_cat(all_recipes[:10], itm_cat_map)
+        itm_cat_map = __get_new_itm_cat(all_recipes, itm_cat_map)
         __save_itm_cat_map(itm_cat_map)
 
