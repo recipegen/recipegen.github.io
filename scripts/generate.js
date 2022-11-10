@@ -225,6 +225,12 @@ function removeCheckRow(){
         }
     }
     console.log(gl_rows)
+
+    final_html = ""
+    for (let i = 0; i < gl_rows.length; i++) {
+        final_html += "<tr>" + gl_rows[i] + "</tr>"
+    }
+    document.getElementById('grocery-list-table').innerHTML = final_html
 }
 
 export { getTotalRecipes, pickRecipes }
