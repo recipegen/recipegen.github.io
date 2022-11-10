@@ -188,29 +188,38 @@ function pickRecipes(){
 }
 document.querySelector('#generate').addEventListener('click', pickRecipes);
 
+function replaceHTML(input, pattern, replacement) {
+    while (input.indexOf(pattern) != -1) {
+        input = input.substring(0, input.indexOf(pattern)) + replacement + input.substring(input.indexOf(pattern) + pattern.length);
+    }
+    return input;
+}
+
+function searchHTML(input, search_start, search_end) {
+    input = input.substring(input.indexOf(search_start) + search_start.length);
+    return input.substring(0, input.indexOf(search_end));
+}
+
 function removeCheckRow(){
     console.log("Trying to remove this checkbox row");
 
     var gl_html = document.getElementById('grocery-list-table').innerHTML;
-
+    gl_html = replaceHTML(gl_html, "<tbody>", "")
+    gl_html = replaceHTML(gl_html, "</tbody>", "")
+    gl_html = replaceHTML(gl_html, "<tr>", "")
     var gl_rows = gl_html.split("</tr>");
-    console.log(gl_rows);
-    gl_rows.shift();
-    gl_rows.pop();
     console.log(gl_rows);
 
     var gl_ids = [];
     for (let i = 0; i < gl_rows.length; i++) {
-        const id_search_str = "<input type=\"checkbox\" id=\"";
-        var id = gl_rows[i].substring(gl_rows[i].indexOf(id_search_str) + id_search_str.length);
-        gl_ids.push(id.substring(0, id.indexOf("\">")));
+        gl_ids.push(searchHTML(gl_rows[i], "<input type=\"checkbox\" id=\"", "\">"))
     }
     console.log(gl_ids);
 
     for (let i = 0; i < gl_ids.length; i++) {
         if (document.getElementById(gl_ids[i]).checked) {
-            console.log(gl_ids[i])
-            console.log(gl_rows[i])
+            console.log(gl_ids[i]);
+            console.log(gl_rows[i]);
         }
     }
 }
