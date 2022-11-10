@@ -192,9 +192,17 @@ function removeCheckRow(){
     console.log("Trying to remove this checkbox row")
 
     var gl_html = document.getElementById('grocery-list-table').innerHTML
-    var gl_rows = gl_html.replace("<tr>", "").split("</tr>")
+    var gl_rows = gl_html.split("</tr>")
+    gl_rows.shift()
+    gl_rows.pop()
     for (let i = 0; i < gl_rows.length; i++) {
-        console.log(gl_rows[i])
+        console.log(gl_rows[i].substring(4))
+    }
+    for (let i = 0; i < gl_rows.length; i++) {
+        const id_search_str = "<input type=\"checkbox\" id=\""
+        var id = gl_rows[i].substring(gl_rows[i].indexOf(id_search_str) + id_search_str.length)
+        id = id.substring(0, id.indexOf("\">"))
+        console.log(id)
     }
 }
 
