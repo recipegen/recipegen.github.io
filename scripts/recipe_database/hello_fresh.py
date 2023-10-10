@@ -117,6 +117,8 @@ def __get_recipe_df(recipe_soup):
     
     df = pd.DataFrame(recipe_dict_list, columns=['qty', 'unit', 'item'])
     df = df[df.item != 'unit']
+    df = df[df.unit != '']
+    df = df[df.qty != '']
     df['qty'] = df['qty'].apply(__parse_numeric)
     df = df.fillna("")
     
@@ -144,10 +146,11 @@ def __get_recipe_details(recipe_soup, url):
     recipe_details = {}
     
     recipe_details['url'] = url
-    recipe_details['name'] = recipe_soup.find_all("h1", {"data-test-id": "recipeDetailFragment.recipe-name"})[0].text
-    recipe_details['description'] = recipe_soup.find_all("p")[0].text
+    recipe_details['name'] = recipe_soup.find_all('h1', {'data-zest': 'hellofresh'})[0].text
+    recipe_details['description'] = recipe_soup.find_all('p')[0].text
+    recipe_details['servings'] = 2
     
-    all_spans = [span.text for span in recipe_soup.find_all("span")]
+    all_spans = [span.text for span in recipe_soup.find_all('span')]
     recipe_details['allergens'] = {}
     recipe_details['allergens']['immediate'] = __rindex_val(all_spans, 'Allergens', offset=1).split('•')
     recipe_details['allergens']['secondary'] = __rindex_val(all_spans, 'Produced in a facility that processes ', exact=False)[len('Produced in a facility that processes '):].replace('and ', '').replace('.', '').split(', ')

@@ -5,8 +5,10 @@ import time
 import recipe
 import pandas as pd
 from tqdm import tqdm
-import hello_fresh as hf
 from multiprocessing import Pool, Lock
+
+import home_chef as hc
+import hello_fresh as hf
 
 __recipe_database_filename = 'recipe_database.json'
 __itm_cat_map_filename = 'item_category_mapping.json'
@@ -17,6 +19,14 @@ def __verbose_print(to_print, verbose):
     if verbose:
         print(to_print)
 
+def __parse_all_recipes_helper_hc(url):
+    to_return = None
+    try:
+        to_return = hc.get_recipe(url)
+    except recipe.RecipeParseException:
+        pass
+    return to_return
+        
 def __parse_all_recipes_helper_hf(url):
     to_return = None
     try:
@@ -27,9 +37,25 @@ def __parse_all_recipes_helper_hf(url):
 
 def __parse_all_recipes(verbose=True):
     all_recipes = []
+    
+    # Home Chef
+    __verbose_print('Finding Home Chef Recipes', verbose)
+    all_urls_hc = hc.find_recipe_urls(verbose=verbose)
+    __verbose_print('Parsing Home Chef Recipes', verbose)
+    start_time = time.time()
+    pool = Pool(8)
+    return_recipes = pool.map(__parse_all_recipes_helper_hc, all_urls_hc)
+    pool.close()
+    end_time = time.time()
+    return_recipes = [recipe for recipe in return_recipes if recipe is not None]
+    __verbose_print('Parsed ' + str(len(return_recipes)) + ' recipes from Home Chef', verbose)
+    __verbose_print('Elapsed Time: ' + str(round(end_time-start_time,2)) + '\tIterations/Sec: ' + str(round(len(all_urls_hc)/(end_time-start_time),2)), verbose)
+    all_recipes.extend(return_recipes)
+    
+    # Hello Fresh
+    __verbose_print('Finding Hello Fresh Recipes', verbose)
     all_urls_hf = hf.find_recipe_urls(verbose=verbose)
     __verbose_print('Parsing Hello Fresh Recipes', verbose)
-
     start_time = time.time()
     pool = Pool(8)
     return_recipes = pool.map(__parse_all_recipes_helper_hf, all_urls_hf)
@@ -37,7 +63,7 @@ def __parse_all_recipes(verbose=True):
     end_time = time.time()
     return_recipes = [recipe for recipe in return_recipes if recipe is not None]
     __verbose_print('Parsed ' + str(len(return_recipes)) + ' recipes from Hello Fresh', verbose)
-    __verbose_print('Elapsed Time: ' + str(end_time-start_time) + '\tTime per Iteration: ' + str((end_time-start_time)/len(all_urls_hf)), verbose)
+    __verbose_print('Elapsed Time: ' + str(round(end_time-start_time,2)) + '\tIterations/Sec: ' + str(round(len(all_urls_hf)/(end_time-start_time),2)), verbose)
     all_recipes.extend(return_recipes)
 
     return all_recipes
