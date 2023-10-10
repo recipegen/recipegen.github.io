@@ -1,3 +1,4 @@
+import re
 import recipe
 import requests
 import unicodedata
@@ -111,12 +112,13 @@ def __get_recipe_df(recipe_soup):
             new_item['qty'] = new_item['qty'][:-1]
             new_item['unit'] = new_item['unit'][:-1]
         else:
-            new_item['item'] = recipe_elements[i]
+            new_item['item'] = re.sub("[\(\[].*?[\)\]]", "", recipe_elements[i])
             recipe_dict_list.append(new_item)
             new_item = {}
     
     df = pd.DataFrame(recipe_dict_list, columns=['qty', 'unit', 'item'])
     df = df[df.item != 'unit']
+    df = df[df.item != '']
     df = df[df.unit != '']
     df = df[df.qty != '']
     df['qty'] = df['qty'].apply(__parse_numeric)
